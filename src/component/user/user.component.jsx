@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import { makeStyles, Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography, Grid } from "@material-ui/core";;
+import { makeStyles, Card, CardActionArea,  CardContent, CardMedia,  Typography, Grid } from "@material-ui/core";;
 const useStyles = makeStyles({
     root: {
         maxWidth: "100%",
@@ -16,7 +16,7 @@ const User = () => {
     const allUsers = useSelector(state => state.users.allUsers);
     const classes = useStyles();
     return (
-        <div className="user" className={classes.gridContainer}>
+        <div className={classes.gridContainer + " user"}>
             <Grid container spacing={4}>
                 {allUsers.map((dat, idx) =>
                     <Grid key={idx} item xs={12} sm={6} md={4} >
