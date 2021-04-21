@@ -6,8 +6,16 @@ import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { getAllUsers } from './redux/action/user/user.action';
 import { Header } from "./component/header/header.component";
+import { Grid, Container, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  containerPadding: {
+      marginTop: "15px",
+  }
+});
 
 function App() {
+  const classes = useStyles()
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllUsers());
@@ -15,10 +23,14 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Switch>        
-        <Route exact path='/users' component={User} />
-        <Route exact path='/task' component={Task} />
-      </Switch>
+      <Container maxWidth="lg" className={classes.containerPadding}>
+        <Grid container spacing={4} justify="center">
+          <Switch>
+            <Route exact path='/users' component={User} />
+            <Route exact path='/task' component={Task} />
+          </Switch>
+        </Grid>
+        </Container>
     </div>
   );
 }
