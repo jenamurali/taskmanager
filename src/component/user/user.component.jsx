@@ -25,7 +25,7 @@ const User = () => {
                                 <CardMedia
                                     className={classes.media}
                                     image={dat.picture}
-                                    title="Contemplative Reptile"
+                                    title={dat.name}
                                 />
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
