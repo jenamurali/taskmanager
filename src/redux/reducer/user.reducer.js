@@ -5,7 +5,6 @@ const defaultState = {
 }
 
 const userReducer = (state = defaultState,action) => {
-    debugger
     switch (action.type) {
         case UserType.FETCH_USER:
             return {
