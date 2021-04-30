@@ -1,13 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'
-import { Grid, TextField, makeStyles, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
+import { useSelector, useDispatch } from 'react-redux'
+import { Grid, TextField, makeStyles, Select, FormControl, InputLabel, MenuItem, Button } from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import moment from "moment";
+import { useHistory } from "react-router-dom";
 import "jquery-datetimepicker";
-import jquery from "jquery"
-// import {  } from '@material-ui/icons';
+import jquery from "jquery";
+import { CreateTask } from '../../redux/task/task.action'
+import swal from 'sweetalert';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     textareaWidth: {
         width: "100% !important",
     },
@@ -20,11 +22,19 @@ const useStyles = makeStyles({
         transform: "translate(-30px, 15px)",
         height: "100%",
         fontSize: 25
-    }
-})
+    },
+    root: {
+        '& > *': {
+            margin: "0 0 0 4px",
+        },
+    },
+}))
 const Task = () => {
     const dateInput = useRef(null);
+    const dispatch = useDispatch();
+    let history = useHistory();
     const allUsers = useSelector(state => state.users.allUsers);
+    const isTaskCreated = useSelector(state => state.task.payload);
     let users = [];
     users = allUsers.map(val => val.name);
     debugger
@@ -48,6 +58,13 @@ const Task = () => {
             minDate: moment().format("YYYY/MM/DD")
         });
     }, []);
+    useEffect(() => {
+        console.log(isTaskCreated)
+        if(isTaskCreated){
+            console.log("created")
+            swal("Good job!", "Your task has been created.", "success").then(() => history.push("/"));
+        }
+    },[isTaskCreated])
     return (
         <Grid container item xs={12} sm={12} md={6} >
             <Grid item xs={12} sm={12} md={12} className={classes.formmargin}>
@@ -117,8 +134,26 @@ const Task = () => {
                     fullWidth
                     renderInput={(params) => <TextField {...params} label="Assignee" variant="outlined" />}
                 />
-
-
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} className={classes.formmargin + " " + classes.root} 
+                container
+                direction="row-reverse"
+                justify="flex-start"
+                alignItems="center"
+            >
+                <Button variant="contained" color="secondary" onClick={() => history.push("/")}>
+                    Cancle
+                </Button>
+                <Button variant="contained" color="primary" onClick={() => 
+                    dispatch(CreateTask({
+                        message : state.message,
+                        priority : state.priority,
+                        assignee,
+                        dueDate
+                    }))
+                }>
+                    Submit
+                </Button>
             </Grid>
         </Grid>
     )
