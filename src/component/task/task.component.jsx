@@ -8,6 +8,7 @@ import "jquery-datetimepicker";
 import jquery from "jquery";
 import { CreateTask } from '../../redux/task/task.action'
 import swal from 'sweetalert';
+import { TaskType } from "../../redux/task/task.actiontype"
 
 const useStyles = makeStyles((theme) => ({
     textareaWidth: {
@@ -62,7 +63,13 @@ const Task = () => {
         console.log(isTaskCreated)
         if(isTaskCreated){
             console.log("created")
-            swal("Good job!", "Your task has been created.", "success").then(() => history.push("/"));
+            swal("Good job!", "Your task has been created.", "success").then(() => {
+                history.push("/");
+                dispatch({
+                    type : TaskType.TASK_CREATED,
+                    payload : false
+                })
+            });
         }
     },[isTaskCreated])
     return (
